@@ -1,21 +1,49 @@
-name: Copy Dev to Prod
+name: Update Prod with Dev Changes
 
 on:
   push:
     branches:
-      - main # change this to your main branch name
+      - main
 
 jobs:
-  copy:
+  update-prod:
     runs-on: ubuntu-latest
     steps:
-      - name: Push to Prod Repository
-        uses: cpina/github-action-push-to-another-repository@main
+      - name: Checkout GitOps-prod repository
+        uses: actions/checkout@v2
         with:
-          source-directory: .
-          destination-github-username: ArielDomchik # replace with your prod repository information
-          destination-repository-name: GitOps-prod # replace with your prod repository information
-          user-email: ariyonzor@gmail.com # replace with your email address
-          target-branch: main
-        env:
-          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+          repository: ArielDomchik/GitOps-prod
+          ref: main
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+
+      - name: Clone GitOps-dev repository
+        uses: actions/checkout@v2
+        with:
+          repository: ArielDomchik/GitOps-dev
+          ref: main
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+        id: clone_dev_repo
+
+      - name: Copy GitOps-dev files to GitOps-prod
+        run: |
+          cp -r ${{ steps.clone_dev_repo.outputs.directory }}/* ${{ github.workspace }}
+
+      - name: Commit changes and push to GitOps-prod
+        run: |
+          cd ${{ github.workspace }}
+          git config --global user.email "ariyonzor@gmail.com"
+          git config --global user.name "ArielDomchik"
+          git add .
+          git commit -m "Update prod with dev changes"
+          git push origin main
+
+      - name: Update values.yaml in Personal-space
+        run: |
+          cd ${{ steps.clone_dev_repo.outputs.directory }}
+          cp values.yaml ../ArielDomchik/Personal-space/
+          cd ../ArielDomchik/Personal-space/
+          git config --global user.email "ariyonzor@gmail.com"
+          git config --global user.name "ArielDomchik"
+          git add values.yaml
+          git commit -m "Update values.yaml in Personal-space"
+          git push origin main
