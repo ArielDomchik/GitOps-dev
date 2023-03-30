@@ -1,0 +1,48 @@
+name: Copy Dev to Prod
+
+on:
+  push:
+    branches:
+      - main # change this to your main branch name
+
+jobs:
+  copy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout dev code
+        uses: actions/checkout@v2
+        with:
+          repository: ArielDomchik/GitOps-dev # replace with your dev repository information
+          ref: main
+
+      - name: Upload code as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: dev-code
+          path: ./
+
+      - name: Download code artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: dev-code
+          path: ./prod-code
+
+      - name: Copy code to prod repository
+        run: |
+          cd prod-code
+          git init
+          git remote add origin git@github.com:ArielDomchik/GitOps-prod.git # replace with your prod repository information
+          git add .
+          git commit -m "Copy dev code to prod"
+          git push -f origin main
+
+      - name: Push code to another repository
+        uses: cpina/github-action-push-to-another-repository@main
+        env:
+          API_TOKEN_GITHUB: ${{ secrets.API_TOKEN_GITHUB }}
+        with:
+          source-directory: 'prod-code' # replace with the directory where your prod code was cloned
+          destination-github-username: 'ArielDomchik' # replace with your username or organization
+          destination-repository-name: 'GitOps-prod' # replace with the name of your prod repository
+          user-email: 'ariyonzot@gmail.com' # replace with your email address
+          target-branch: main
