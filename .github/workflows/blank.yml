@@ -2,48 +2,37 @@ name: Update Repositories
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
-  update_repositories:
+  update-repos:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Clone GitOps-prod Repository
-        uses: actions/checkout@v2
-        with:
-          repository: ArielDomchik/GitOps-prod
-          ref: main
-          token: ${{ secrets.API_TOKEN_GITHUB }}
-
-      - name: Clone GitOps-dev Repository
-        uses: actions/checkout@v2
-        with:
-          repository: ArielDomchik/GitOps-dev
-          ref: main
-          token: ${{ secrets.API_TOKEN_GITHUB }}
-
-      - name: Copy Contents from GitOps-dev to GitOps-prod
-        run: |
-          rsync -r --exclude='values.yaml' --exclude='README.md' GitOps-dev/ GitOps-prod/
-
-      - name: Clone Personal-space Repository
-        uses: actions/checkout@v2
-        with:
-          repository: ArielDomchik/Personal-space
-          ref: main
-          token: ${{ secrets.API_TOKEN_GITHUB }}
-
-      - name: Copy values.yaml from GitOps-dev to Personal-space
-        run: |
-          cp GitOps-dev/values.yaml Personal-space/values.yaml
-
-      - name: Commit and Push Changes
-        uses: EndBug/add-and-commit@v7
-        with:
-          author_name: GitHub Actions
-          author_email: actions@github.com
-          message: Update repositories with latest changes
-          add: .
-          push: true
-          token: ${{ secrets.API_TOKEN_GITHUB }}
+    - name: Checkout GitOps-dev
+      uses: actions/checkout@v2
+      with:
+        repository: ArielDomchik/GitOps-dev
+    - name: Checkout GitOps-prod
+      uses: actions/checkout@v2
+      with:
+        repository: ArielDomchik/GitOps-prod
+    - name: Checkout Personal-space
+      uses: actions/checkout@v2
+      with:
+        repository: username/Personal-space
+    - name: Copy files from GitOps-dev to GitOps-prod
+      run: |
+        rsync -r --exclude='values.yaml' --exclude='README.md' GitOps-dev/ GitOps-prod/
+      working-directory: ./GitOps-dev
+    - name: Copy values.yaml from GitOps-dev to Personal-space
+      run: |
+        cp GitOps-dev/values.yaml Personal-space/
+      working-directory: ./
+    - name: Commit changes and push to GitOps-prod and Personal-space
+      run: |
+        git config --local user.email "ariyonzor@gmail.com"
+        git config --local user.name "ArielDomchik"
+        git add -A
+        git commit -m "Update repositories"
+        git push
+      working-directory: ./GitOps-prod
