@@ -12,7 +12,7 @@ jobs:
       - name: Push to Prod Repository
         uses: cpina/github-action-push-to-another-repository@main
         with:
-          source-directory: dev-code/output
+          source-directory: .
           destination-github-username: ArielDomchik # replace with your prod repository information
           destination-repository-name: GitOps-prod # replace with your prod repository information
           user-email: ariyonzor@gmail.com # replace with your email address
