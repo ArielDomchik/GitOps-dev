@@ -1,38 +1,49 @@
-name: Update Repositories
+name: Replace dev with prod
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
-  update-repos:
+  replace:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout GitOps-dev
-      uses: actions/checkout@v2
-      with:
-        repository: ArielDomchik/GitOps-dev
-    - name: Checkout GitOps-prod
-      uses: actions/checkout@v2
-      with:
-        repository: ArielDomchik/GitOps-prod
-    - name: Checkout Personal-space
-      uses: actions/checkout@v2
-      with:
-        repository: ArielDomchik/Personal-space
-    - name: Copy files from GitOps-dev to GitOps-prod
-      run: |
-        rsync -r --exclude='values.yaml' --exclude='README.md' GitOps-dev/ GitOps-prod/
-      working-directory: ./GitOps-dev
-    - name: Copy values.yaml from GitOps-dev to Personal-space
-      run: |
-        cp GitOps-dev/values.yaml Personal-space/
-      working-directory: ./
-    - name: Commit changes and push to GitOps-prod and Personal-space
-      run: |
-        git config --local user.email "ariyonzor@gmail.com"
-        git config --local user.name "ArielDomchik"
-        git add -A
-        git commit -m "Update repositories"
-        git push
-      working-directory: ./GitOps-prod
+      - name: Checkout dev
+        uses: actions/checkout@v2
+        with:
+          repository: ArielDomchik/GitOps-dev
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+      
+      - name: Checkout prod
+        uses: actions/checkout@v2
+        with:
+          repository: ArielDomchik/GitOps-prod
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+          
+      - name: Checkout Personal-space
+        uses: actions/checkout@v2
+        with:
+          repository: ArielDomchik/Personal-space
+          token: ${{ secrets.API_TOKEN_GITHUB }}
+
+      - name: Replace dev with prod
+        run: |
+          rsync -r --exclude='values.yaml' --exclude='README.md' ./GitOps-dev/ ./GitOps-prod/
+          cp ./GitOps-dev/values.yaml ./Personal-space/values.yaml
+        working-directory: ./repositories
+        
+      - name: Commit changes
+        run: |
+          git config --global user.name "ArielDomchik"
+          git config --global user.email "ariyonzor@gmail.com"
+          cd ./GitOps-prod/
+          git add .
+          git commit -m "Replace dev with prod"
+          git push
+          
+          cd ../Personal-space/
+          git add values.yaml
+          git commit -m "Update values.yaml from GitOps-dev"
+          git push
+        working-directory: ./repositories
