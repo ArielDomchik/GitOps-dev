@@ -19,7 +19,7 @@ jobs:
     - name: Checkout Personal-space
       uses: actions/checkout@v2
       with:
-        repository: username/Personal-space
+        repository: ArielDomchik/Personal-space
     - name: Copy files from GitOps-dev to GitOps-prod
       run: |
         rsync -r --exclude='values.yaml' --exclude='README.md' GitOps-dev/ GitOps-prod/
