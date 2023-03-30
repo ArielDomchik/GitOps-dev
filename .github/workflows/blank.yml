@@ -21,7 +21,7 @@ jobs:
         with:
           repository: ArielDomchik/GitOps-dev
           ref: main
-          token: ${{ secrets.API_TOKEN_GITHUB
+          token: ${{ secrets.API_TOKEN_GITHUB }}
 
       - name: Copy Contents from GitOps-dev to GitOps-prod
         run: |
@@ -32,7 +32,7 @@ jobs:
         with:
           repository: ArielDomchik/Personal-space
           ref: main
-          token: ${{ secrets.ACCESS_TOKEN }}
+          token: ${{ secrets.API_TOKEN_GITHUB }}
 
       - name: Copy values.yaml from GitOps-dev to Personal-space
         run: |
