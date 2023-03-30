@@ -31,7 +31,6 @@ jobs:
         run: |
           cd prod-code
           git init
-          git remote add origin git@github.com:ArielDomchik/GitOps-prod.git # replace with your prod repository information
           git add .
           git commit -m "Copy dev code to prod"
           git push -f origin main
