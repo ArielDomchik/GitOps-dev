@@ -1,3 +1,5 @@
+- GitOps-dev
+
 This repository contains the development version of the application that is deployed using ArgoCD. When a new release is available,
 the values.yaml file in the private repository is replaced, and the chart in the GitOps-prod repository is updated using the workflow we created.
 
