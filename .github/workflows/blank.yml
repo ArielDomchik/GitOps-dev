@@ -55,5 +55,5 @@ jobs:
         git config user.email "ariyonzor@gmail.com"
         git config user.name "ArielDomchik"
         git add .
-        git commit -m "Update GitOps-prod and Personal-space with latest changes"
+        git commit -m "Update Personal-space with latest changes"
         git push origin main
