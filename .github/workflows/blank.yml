@@ -26,6 +26,7 @@ jobs:
     - name: Commit changes to GitOps-prod
       run: |
         ls
+        pwd
         git config user.email "ariyonzor@gmail.com"
         git config user.name "ArielDomchik"
         cp -r ./GitOps-dev/templates ./GitOps-prod/
