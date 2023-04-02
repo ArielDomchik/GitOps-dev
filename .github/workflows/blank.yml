@@ -14,7 +14,7 @@ jobs:
            repository: ArielDomchik/Personal-space
            ref: main
            token: ${{ secrets.API_TOKEN_GITHUB }}
-           path: /Personal-space
+           path: /home/runner/work/GitOps-dev/GitOps-dev/Personal-space
 
     - name: Checkout GitOps-prod repository
       uses: actions/checkout@v2
@@ -22,7 +22,7 @@ jobs:
         repository: ArielDomchik/GitOps-prod
         ref: main
         token: ${{ secrets.API_TOKEN_GITHUB }}
-        path: /GitOps-prod
+        path: /home/runner/work/GitOps-dev/GitOps-dev/GitOps-prod
            
     - name: Checkout GitOps-dev repository
       uses: actions/checkout@v2
@@ -30,7 +30,7 @@ jobs:
         repository: ArielDomchik/GitOps-dev
         ref: main
         token: ${{ secrets.API_TOKEN_GITHUB }}
-        path: /GitOps-dev
+        path: /home/runner/work/GitOps-dev/GitOps-dev/GitOps-dev
 
     - name: Commit changes to GitOps-prod
       run: |
@@ -38,10 +38,10 @@ jobs:
         pwd
         git config user.email "ariyonzor@gmail.com"
         git config user.name "ArielDomchik"
-        cp -r /home/runner/work/GitOps-dev/GitOps-dev/templates /home/runner/work/GitOps-prod/GitOps-prod/
-        cp -r /home/runner/work/GitOps-dev/GitOps-dev/Chart.yaml /home/runner/work/GitOps-prod/GitOps-prod/
-        rm /home/runner/work/Personal-space/Personal-space/values.yaml
-        cp -r /home/runner/work/GitOps-dev/GitOps-dev/values.yaml /home/runner/work/Personal-space/Personal-space
+        cp -r /home/runner/work/GitOps-dev/GitOps-dev/GitOps-dev/templates /home/runner/work/GitOps-dev/GitOps-prod/
+        cp -r /home/runner/work/GitOps-dev/GitOps-dev/Chart.yaml /home/runner/work/GitOps-dev/GitOps-prod/
+        rm /home/runner/work/GitOps-dev/GitOps-dev/Personal-space/values.yaml
+        cp -r /home/runner/work/GitOps-dev/GitOps-dev/values.yaml /home/runner/work/GitOps-dev/GitOps-dev/Personal-space
         git add .
         git commit -m "Update GitOps-prod and Personal-space with latest changes"
         git push origin main
