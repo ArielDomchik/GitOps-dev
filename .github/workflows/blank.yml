@@ -14,29 +14,31 @@ jobs:
         with:
           repository: ArielDomchik/GitOps-dev
           token: ${{ secrets.API_TOKEN_GITHUB }}
-          path: ./repositories/GitOps-dev
-
+      
       - name: Checkout prod
         uses: actions/checkout@v2
         with:
           repository: ArielDomchik/GitOps-prod
           token: ${{ secrets.API_TOKEN_GITHUB }}
-          path: ./repositories/GitOps-prod
           
       - name: Checkout Personal-space
         uses: actions/checkout@v2
         with:
           repository: ArielDomchik/Personal-space
           token: ${{ secrets.API_TOKEN_GITHUB }}
-          path: ./repositories/Personal-space
+          
+      - name: Create repositories directory
+        run: |
+          mkdir repositories
+        shell: bash
 
       - name: Replace dev with prod
         run: |
           cd ./repositories
           rsync -r --exclude='values.yaml' --exclude='README.md' ./GitOps-dev/ ./GitOps-prod/
           cp ./GitOps-dev/values.yaml ./Personal-space/values.yaml
-        working-directory: ./repositories
-        
+        shell: bash
+          
       - name: Commit changes
         run: |
           git config --global user.name "ArielDomchik"
@@ -50,4 +52,4 @@ jobs:
           git add values.yaml
           git commit -m "Update values.yaml from GitOps-dev"
           git push
-        working-directory: ./repositories
+        shell: bash
