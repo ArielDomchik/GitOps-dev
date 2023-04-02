@@ -3,7 +3,7 @@ name: Update Repositories
 on:
   push:
     branches: [main]
-ArielDomchik
+
 jobs:
   update-repositories:
     runs-on: ubuntu-latest
