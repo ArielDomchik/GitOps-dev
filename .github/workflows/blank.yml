@@ -26,19 +26,13 @@ jobs:
         with:
           repository: ArielDomchik/Personal-space
           token: ${{ secrets.API_TOKEN_GITHUB }}
-          
-      - name: Create repositories directory
-        run: |
-          mkdir repositories
-        shell: bash
 
       - name: Replace dev with prod
         run: |
-          cd ./repositories
           rsync -r --exclude='values.yaml' --exclude='README.md' ./GitOps-dev/ ./GitOps-prod/
           cp ./GitOps-dev/values.yaml ./Personal-space/values.yaml
-        shell: bash
-          
+        working-directory: ./repositories
+        
       - name: Commit changes
         run: |
           git config --global user.name "ArielDomchik"
@@ -52,4 +46,4 @@ jobs:
           git add values.yaml
           git commit -m "Update values.yaml from GitOps-dev"
           git push
-        shell: bash
+        working-directory: ./repositories
