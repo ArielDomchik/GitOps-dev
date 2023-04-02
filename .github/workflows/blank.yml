@@ -12,38 +12,38 @@ jobs:
       - name: Checkout dev
         uses: actions/checkout@v2
         with:
-          repository: username/GitOps-dev
+          repository: ArielDomchik/GitOps-dev
           token: ${{ secrets.API_TOKEN_GITHUB }}
       
       - name: Checkout prod
         uses: actions/checkout@v2
         with:
-          repository: username/GitOps-prod
+          repository: ArielDomchik/GitOps-prod
           token: ${{ secrets.API_TOKEN_GITHUB }}
           
       - name: Checkout Personal-space
         uses: actions/checkout@v2
         with:
-          repository: username/Personal-space
+          repository: ArielDomchik/Personal-space
           token: ${{ secrets.API_TOKEN_GITHUB }}
 
       - name: Replace dev with prod
         run: |
-          rsync -r --exclude='values.yml' --exclude='README.md' ./GitOps-dev/ ./GitOps-prod/
-          cp ./GitOps-dev/values.yml ./Personal-space/values.yml
+          rsync -r --exclude='values.yaml' --exclude='README.md' ./GitOps-dev/ ./GitOps-prod/
+          cp ./GitOps-dev/values.yaml ./Personal-space/values.ymal
         working-directory: ./repositories
         
       - name: Commit changes
         run: |
-          git config --global user.name "Your Name"
-          git config --global user.email "youremail@example.com"
+          git config --global user.name "ArielDomchik"
+          git config --global user.email "ariyonzor@gmail.com"
           cd ./GitOps-prod/
           git add .
           git commit -m "Replace dev with prod"
           git push
           
           cd ../Personal-space/
-          git add values.yml
-          git commit -m "Update values.yml from GitOps-dev"
+          git add values.yaml
+          git commit -m "Update values.yaml from GitOps-dev"
           git push
         working-directory: ./repositories
