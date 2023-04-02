@@ -43,6 +43,8 @@ jobs:
       run: |
         ls
         pwd
+        cd ..
+        ls
         git config user.email "ariyonzor@gmail.com"
         git config user.name "ArielDomchik"
         cp -r /home/runner/work/GitOps-dev/GitOps-dev/templates /home/runner/work/GitOps-prod/GitOps-prod/
