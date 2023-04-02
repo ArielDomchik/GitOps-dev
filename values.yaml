@@ -110,19 +110,6 @@ awsElasticBlockStore:
   volumeID: aws://us-east-1/vol-0f31a590eac92556c
   fsType: ext4
 
-ingressClassName: nginx
-rules: 
-  host: a82fa42cee85a44bf93890b300ffdd22-1094996862.us-east-1.elb.amazonaws.com
-  http:
-    paths:
-      pathType: Prefix
-      path: "/"
-      backend:
-        service: 
-          name: weather-app
-          port:
-            number: 32300
-
 ingressDomain: "a82fa42cee85a44bf93890b300ffdd22-1094996862.us-east-1.elb.amazonaws.com"
 
 storageClassName: weather-app-storage
