@@ -14,30 +14,34 @@ jobs:
         with:
           repository: ArielDomchik/GitOps-dev
           token: ${{ secrets.API_TOKEN_GITHUB }}
+          path: ./repositories/GitOps-dev
       
-      - name: Checkout prod
+      - name: Clone prod
         uses: actions/checkout@v2
         with:
           repository: ArielDomchik/GitOps-prod
           token: ${{ secrets.API_TOKEN_GITHUB }}
-          
-      - name: Checkout Personal-space
+          path: ./repositories/GitOps-prod
+      
+      - name: Clone Personal-space
         uses: actions/checkout@v2
         with:
           repository: ArielDomchik/Personal-space
           token: ${{ secrets.API_TOKEN_GITHUB }}
+          path: ./repositories/Personal-space
 
       - name: Replace dev with prod
         run: |
+          cd ./repositories
           rsync -r --exclude='values.yaml' --exclude='README.md' ./GitOps-dev/ ./GitOps-prod/
           cp ./GitOps-dev/values.yaml ./Personal-space/values.yaml
         working-directory: ./repositories
         
       - name: Commit changes
         run: |
+          cd ./repositories/GitOps-prod/
           git config --global user.name "ArielDomchik"
           git config --global user.email "ariyonzor@gmail.com"
-          cd ./repositories/GitOps-prod/
           git add .
           git commit -m "Replace dev with prod"
           git push
