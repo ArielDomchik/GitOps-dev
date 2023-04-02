@@ -14,7 +14,6 @@ jobs:
         repository: ArielDomchik/GitOps-dev
         ref: main
         token: ${{ secrets.API_TOKEN_GITHUB }}
-        path: /GitOps-dev
 
     - name: Checkout GitOps-prod repository
       uses: actions/checkout@v2
@@ -22,7 +21,6 @@ jobs:
         repository: ArielDomchik/GitOps-prod
         ref: main
         token: ${{ secrets.API_TOKEN_GITHUB }}
-        path: /GitOps-prod
 
 
     - name: Commit changes to GitOps-prod
