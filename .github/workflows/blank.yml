@@ -22,22 +22,15 @@ jobs:
         ref: main
         token: ${{ secrets.API_TOKEN_GITHUB }}
 
-    - name: Copy files from GitOps-dev to GitOps-prod
-      run: |
-        rsync -r --exclude='values.yml' --exclude='README.md' GitOps-dev/ GitOps-prod/
-
-    - name: Update values.yml in Personal-space repository
-      uses: peter-evans/repository-dispatch@v1
-      with:
-        token: ${{ secrets.API_TOKEN_GITHUB }}
-        repository: ArielDomchik/Personal-space
-        event-type: update-values-yml
-        client-payload: '{"repository": "your-username/GitOps-dev"}'
 
     - name: Commit changes to GitOps-prod
       run: |
         git config user.email "ariyonzor@gmail.com"
         git config user.name "ArielDomchik"
+        cp -r /GitOps-dev/templates /GitOps-prod/
+        cp -r /GitOps-dev/Chart.yaml /GitOps-prod/
+        rm /Personal-space/values.yaml
+        cp -r /GitOps-dev/values.yaml /Personal-space/
         git add .
         git commit -m "Update GitOps-prod and Personal-space with latest changes"
         git push origin main
