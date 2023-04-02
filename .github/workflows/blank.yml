@@ -29,6 +29,7 @@ jobs:
 
       - name: Replace dev with prod
         run: |
+          cd repositories
           rsync -r --exclude='values.yaml' --exclude='README.md' ./GitOps-dev/ ./GitOps-prod/
           cp ./GitOps-dev/values.yaml ./Personal-space/values.ymal
         working-directory: ./repositories
@@ -37,7 +38,7 @@ jobs:
         run: |
           git config --global user.name "ArielDomchik"
           git config --global user.email "ariyonzor@gmail.com"
-          cd ./GitOps-prod/
+          cd repositories/GitOps-prod/
           git add .
           git commit -m "Replace dev with prod"
           git push
