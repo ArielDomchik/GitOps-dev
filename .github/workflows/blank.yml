@@ -8,12 +8,12 @@ jobs:
   update-repositories:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout GitOps-dev repository
+    - name: Checkout Personal-space repository
       uses: actions/checkout@v2
       with:
-        repository: ArielDomchik/GitOps-dev
-        ref: main
-        token: ${{ secrets.API_TOKEN_GITHUB }}
+           repository: ArielDomchik/Personal-space
+           ref: main
+           token: ${{ secrets.API_TOKEN_GITHUB }}
 
     - name: Checkout GitOps-prod repository
       uses: actions/checkout@v2
@@ -28,6 +28,13 @@ jobs:
            repository: ArielDomchik/Personal-space
            ref: main
            token: ${{ secrets.API_TOKEN_GITHUB }}
+           
+    - name: Checkout GitOps-dev repository
+      uses: actions/checkout@v2
+      with:
+        repository: ArielDomchik/GitOps-dev
+        ref: main
+        token: ${{ secrets.API_TOKEN_GITHUB }}
         
 
 
