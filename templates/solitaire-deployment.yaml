@@ -4,6 +4,7 @@ metadata:
   name: {{ .Values.solitaire }}
   labels:
     app: {{ .Values.solitaire }}
+  namespace: default
 spec:
   replicas: 1
   selector:

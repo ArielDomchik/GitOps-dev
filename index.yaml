@@ -3,12 +3,12 @@ entries:
   weather-app:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2023-04-23T18:16:20.602864367+03:00"
+    created: "2023-04-23T18:17:32.186660367+03:00"
     description: A Helm chart for Kubernetes
     digest: 93c388f447b3d205b4f80aeef7eb747efa06e2dbd64a6fb11732cf7099f60abc
     name: weather-app
     type: application
     urls:
-    - https://github.com/ArielDomchik/GitOps-dev/weather-app-0.1.0.tgz
+    - https://arieldomchik.github.io/gitops-dev/weather-app-0.1.0.tgz
     version: 0.1.0
-generated: "2023-04-23T18:16:20.595941111+03:00"
+generated: "2023-04-23T18:17:32.179921743+03:00"
