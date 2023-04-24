@@ -107,7 +107,7 @@ tolerations: []
 affinity: {}
 
 awsElasticBlockStore:
-  volumeID: aws://us-east-1/vol-00ac103160fe3e27c
+  volumeID: aws://us-east-1/vol-0f308f029f4f3db10
   fsType: ext4
 
 ingressDomain: "a82fa42cee85a44bf93890b300ffdd22-1094996862.us-east-1.elb.amazonaws.com"
