@@ -15,7 +15,7 @@ spec:
         path: "/"
         backend:
           service:
-            name: weather-app
+            name: workloads-weather-app
             port:
               number: 80
   - host: "a5571b4267e60458ca9d7c05f09bc864-1404325575.us-east-1.elb.amazonaws.com"
