@@ -19,7 +19,7 @@ env:
   name: BG_COLOR
   valueFrom:
     configMapKeyRef:
-      name: weather-app-configmap-green
+      name: workloads-configmap-green
       key: BG_COLOR
 
 volumes:
